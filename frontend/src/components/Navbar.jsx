@@ -23,7 +23,7 @@ const Navbar = ({ navType }) => {
     "Songs": "/songs",
     "Upcoming Song": "/upcoming",
     Artists: "/artists",
-    Contact: "/",
+    Contact: "/contact",
   };
 
   return (

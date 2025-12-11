@@ -14,6 +14,9 @@ import Trending from "./pages/Trending";
 import Artists from "./pages/Artists";
 import Artistsmusic from "./pages/Artistsmusic";
 import Upcoming from "./pages/Upcoming";
+import Upcominginner from "./pages/Upcominginner";
+import Contact from "./pages/Contact";
+
 function AppContent() {
   const location = useLocation();
 
@@ -25,7 +28,9 @@ function AppContent() {
     location.pathname === "/songs" ||
     location.pathname === "/artists" ||
     location.pathname.startsWith("/artist") ||
-    location.pathname === "/upcoming" 
+    location.pathname === "/upcoming" ||
+    location.pathname === "/song" ||
+    location.pathname === "/contact"
   ) {
     navType = "transparent";
   }
@@ -43,6 +48,10 @@ function AppContent() {
         <Route path="/artists" element={<Artists />} />
         <Route path="/artist/:name" element={<Artistsmusic />} />
         <Route path="/upcoming" element={<Upcoming />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* 🔥 UPCOMING SONG DETAIL PAGE */}
+        <Route path="/song" element={<Upcominginner />} />
       </Routes>
 
       {/* FOOTER */}

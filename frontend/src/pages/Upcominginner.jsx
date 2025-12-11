@@ -6,16 +6,16 @@ import UpcomingHeroInner from "../components/Upcoming/upcomingheroinner";
 
 const Upcominginner = () => {
   const { state } = useLocation();
-  const artist = state?.artist;
+  const song = state?.song; // Receive song object
 
-  if (!artist) return null;
+  if (!song) return null;
 
   return (
     <div className="bg-[#111] text-white">
-      {/* ✅ HERO */}
-      <UpcomingHeroInner artistName={artist.name} />
+      {/* HERO */}
+      <UpcomingHeroInner artistName={song.title} />
 
-      {/* ✅ DETAIL */}
+      {/* DETAIL */}
       <UpcomingInnerSection />
     </div>
   );
