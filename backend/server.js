@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
@@ -8,42 +9,46 @@ app.use(express.json());
 app.use(cors());
 
 // =======================
-// IMPORT ROUTES
+// ROUTES
 // =======================
-const favoritesRoute = require("./routes/favorites");
 const authRoute = require("./routes/auth");
+const favoritesRoute = require("./routes/favorites");
+const userRoute = require("./routes/user");
+const adminAuthRoute = require("./routes/adminAuth"); // ✅ VERY IMPORTANT
+const enquiryRoute = require("./routes/enquiry");
 
 // =======================
 // USE ROUTES
 // =======================
-// auth.js handles:
-// POST /register
-// POST /login
-// POST /google-login
 app.use("/", authRoute);
-
-// favorites routes
 app.use("/favorites", favoritesRoute);
+app.use("/user", userRoute);
+app.use("/api/admin", adminAuthRoute); // ✅ VERY IMPORTANT
+app.use("/api/enquiry", enquiryRoute);
+// =======================
+// SERVE UPLOADS
+// =======================
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // =======================
-// MONGO URI
+// MONGO DB
 // =======================
 const MONGO_URI =
-  "mongodb+srv://km_db_user:Km0126@km.0g6ehcw.mongodb.net/km_music_app?retryWrites=true&w=majority&appName=KM";
+  "mongodb+srv://km_db_user:Km0126@km.0g6ehcw.mongodb.net/km_music_app";
 
 // =======================
-// START SERVER + CONNECT MONGO
+// START SERVER
 // =======================
 async function start() {
   try {
     await mongoose.connect(MONGO_URI);
     console.log("✅ Connected to MongoDB Atlas");
 
-    app.listen(5000, () =>
-      console.log("🚀 Server running on http://localhost:5000")
-    );
+    app.listen(5000, () => {
+      console.log("🚀 Server running on http://localhost:5000");
+    });
   } catch (err) {
-    console.error("❌ Failed to start server:", err);
+    console.error("❌ Mongo error:", err);
   }
 }
 

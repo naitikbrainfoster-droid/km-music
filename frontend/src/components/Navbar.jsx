@@ -3,213 +3,210 @@ import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.svg";
 import searchIcon from "../assets/search-icon.svg";
-import loginIcon from "../assets/login-icon.svg";
-
-import defaultAvatar from "../assets/artist-avatar.png";
+import loginIcon from "../assets/search-icon.svg";
 import LoginModal from "./Login/LoginModel";
 
-const Navbar = ({ navType }) => {
-  /* =========================
-     AUTH STATE (SAFE INIT)
-  ========================== */
-  const [user, setUser] = useState(() => {
-    try {
-      const storedUser = localStorage.getItem("user");
-      if (!storedUser || storedUser === "undefined") return null;
-      return JSON.parse(storedUser);
-    } catch {
-      localStorage.removeItem("user");
-      return null;
-    }
-  });
+const BACKEND_URL = "http://localhost:5000";
 
+const Navbar = () => {
+  /* ================= AUTH ================= */
+  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true"
   );
 
-  /* =========================
-     UI STATES
-  ========================== */
-  const [activeLink, setActiveLink] = useState("Home");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  /* =========================
-     PROFILE REF (OUTSIDE CLICK)
-  ========================== */
   const profileRef = useRef(null);
 
+  /* ============== LOAD USER ============== */
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const loadUser = () => {
+      try {
+        const u = localStorage.getItem("user");
+        setUser(u && u !== "undefined" ? JSON.parse(u) : null);
+      } catch {
+        setUser(null);
+      }
+    };
+    loadUser();
+    window.addEventListener("userUpdated", loadUser);
+    return () => window.removeEventListener("userUpdated", loadUser);
+  }, []);
+
+  /* ============ OUTSIDE CLICK ============ */
+  useEffect(() => {
+    const handler = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setShowProfileMenu(false);
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  /* =========================
-     NAV LINKS
-  ========================== */
-  const navLinks = [
-    "Home",
-    "About",
-    "Trending Song",
-    "Upcoming Song",
-    "Artists",
-    "Contact",
-  ];
-
-  const routeMap = {
-    Home: "/",
-    About: "/about",
-    "Trending Song": "/songs",
-    "Upcoming Song": "/upcoming",
-    Artists: "/artists",
-    Contact: "/contact",
-  };
-
-  /* =========================
-     LOGOUT
-  ========================== */
+  /* ============== LOGOUT ============== */
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("isLoggedIn");
+    localStorage.clear();
     setUser(null);
     setIsLoggedIn(false);
     setShowProfileMenu(false);
-    setIsMobileMenuOpen(false);
+    setMobileMenuOpen(false);
   };
+
+  const firstLetter = user?.fullName?.charAt(0)?.toUpperCase() || "U";
+  const avatarUrl = user?.avatar ? `${BACKEND_URL}${user.avatar}` : null;
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Song", path: "/songs" },
+    { name: "Upcoming Song", path: "/upcoming" },
+    { name: "Artists", path: "/artists" },
+    { name: "Contact", path: "/contact" },
+  ];
 
   return (
     <>
       {/* ================= NAVBAR ================= */}
-      <nav
-        className={`w-full fixed top-0 left-0 z-50 transition-all ${
-          navType === "transparent"
-            ? "bg-[#111]/70 border-b border-[#303030]"
-            : "bg-[#111] border-b border-[#303030]"
-        }`}
-      >
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12 py-4">
-          <div className="flex items-center justify-between gap-6">
+      <nav className="fixed top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-xl border-b border-white/30">
+        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
+          <div className="h-[92px] flex items-center gap-6">
+
             {/* LOGO */}
-            <Link to="/" onClick={() => setActiveLink("Home")}>
-              <img src={logo} alt="Logo" className="h-16 lg:h-20 w-auto" />
+            <Link to="/" className="flex-shrink-0">
+              <img src={logo} alt="Logo" className="h-14 lg:h-16" />
             </Link>
 
-            {/* SEARCH (DESKTOP) */}
-            <div className="hidden md:flex flex-1 max-w-[420px]">
-              <div className="relative flex items-center bg-[#3D3D3D] rounded-[22px] px-6 py-3 w-full">
-                <input
-                  type="text"
-                  placeholder="Search Here"
-                  className="flex-1 bg-transparent text-white outline-none"
-                />
-                <img
-                  src={searchIcon}
-                  alt="search"
-                  className="w-5 h-5 ml-3 opacity-80"
-                />
+            {/* SEARCH + DIVIDER (DESKTOP) */}
+            <div className="hidden md:flex items-center gap-10 flex-1 max-w-[520px]">
+              <div className="w-full">
+                <div className="flex items-center bg-[#3D3D3D] rounded-full px-6 py-3">
+                  <input
+                    placeholder="Search Here"
+                    className="flex-1 bg-transparent text-white outline-none"
+                  />
+                  <img src={searchIcon} className="w-5 h-5 opacity-80" />
+                </div>
               </div>
+
+              <div className="h-[56px] w-[1px] bg-white/40" />
             </div>
 
-            {/* NAV LINKS (DESKTOP) */}
-            <div className="hidden lg:flex items-center gap-10">
-              {navLinks.map((link) => (
+            {/* NAV LINKS (DESKTOP - LEFT SHIFTED) */}
+            <div className="hidden lg:flex items-center gap-10 flex-1 justify-start">
+              {navLinks.map((l) => (
                 <Link
-                  key={link}
-                  to={routeMap[link]}
-                  onClick={() => setActiveLink(link)}
-                  className={`text-[18px] font-medium transition ${
-                    activeLink === link
-                      ? "text-white"
-                      : "text-[#7A7A7A] hover:text-white"
-                  }`}
+                  key={l.name}
+                  to={l.path}
+                  className="text-[#9A9A9A] hover:text-white transition"
                 >
-                  {link}
+                  {l.name}
                 </Link>
               ))}
             </div>
 
-            {/* AUTH */}
-            {!isLoggedIn ? (
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="flex items-center gap-2 bg-[#246BFD] rounded-full px-6 py-3 text-white text-sm font-medium"
-              >
-                Login
-                <img src={loginIcon} alt="login" className="w-4 h-4" />
-              </button>
-            ) : (
-              <div className="relative" ref={profileRef}>
-                <img
-                  src={defaultAvatar}
-                  alt="profile"
-                  className="w-10 h-10 rounded-full cursor-pointer border border-[#3A3A3A]"
-                  onClick={() =>
-                    setShowProfileMenu((prev) => !prev)
-                  }
-                />
-
-                {showProfileMenu && (
-                  <div className="absolute right-0 mt-3 w-52 bg-[#1A1A1A] rounded-xl border border-[#2A2A2A]">
-                    <div className="px-4 py-3 border-b border-[#2A2A2A]">
-                      <p className="text-white font-medium">
-                        {user?.fullName || "User"}
-                      </p>
-                    </div>
-
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-[#222]"
+            {/* AUTH / AVATAR */}
+            <div className="flex items-center gap-4">
+              {!isLoggedIn ? (
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="bg-[#246BFD] rounded-full px-6 py-3 text-white font-medium hidden sm:flex"
+                >
+                  Login
+                  <img src={loginIcon} className="inline w-4 h-4 ml-2" />
+                </button>
+              ) : (
+                <div className="relative" ref={profileRef}>
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      className="w-10 h-10 rounded-full border border-white object-cover cursor-pointer"
+                      onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    />
+                  ) : (
+                    <div
+                      onClick={() => setShowProfileMenu(!showProfileMenu)}
+                      className="w-10 h-10 rounded-full border border-white bg-white/10
+                                 flex items-center justify-center text-white font-semibold cursor-pointer"
                     >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+                      {firstLetter}
+                    </div>
+                  )}
 
-            {/* MOBILE MENU BUTTON */}
-            <button
-              className="lg:hidden text-white text-2xl"
-              onClick={() => setIsMobileMenuOpen((p) => !p)}
-            >
-              ☰
-            </button>
+                  {showProfileMenu && (
+                    <div className="absolute right-0 mt-3 w-56 bg-[#111] border border-[#2A2A2A] rounded-xl">
+                      <div className="px-4 py-3 border-b border-[#2A2A2A]">
+                        <p className="text-white">{user?.fullName}</p>
+                        <p className="text-xs text-gray-400">{user?.email}</p>
+                      </div>
+
+                      <Link
+                        to="/profile"
+                        onClick={() => setShowProfileMenu(false)}
+                        className="block px-4 py-3 hover:bg-[#222] text-white"
+                      >
+                        Profile
+                      </Link>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-3 text-red-400 hover:bg-[#222]"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ☰ MOBILE MENU BUTTON */}
+              <button
+                className="lg:hidden text-white text-3xl"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                ☰
+              </button>
+            </div>
           </div>
         </div>
 
         {/* ================= MOBILE MENU ================= */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-[#111] border-t border-[#303030] px-6 py-4 space-y-4">
-            {navLinks.map((link) => (
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-black/90 backdrop-blur-xl border-t border-white/20 px-6 py-6 space-y-5">
+            {navLinks.map((l) => (
               <Link
-                key={link}
-                to={routeMap[link]}
-                onClick={() => {
-                  setActiveLink(link);
-                  setIsMobileMenuOpen(false);
-                }}
+                key={l.name}
+                to={l.path}
+                onClick={() => setMobileMenuOpen(false)}
                 className="block text-white text-lg"
               >
-                {link}
+                {l.name}
               </Link>
             ))}
+
+            {!isLoggedIn && (
+              <button
+                onClick={() => {
+                  setShowLoginModal(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full bg-[#246BFD] py-3 rounded-full text-white font-medium"
+              >
+                Login
+              </button>
+            )}
           </div>
         )}
       </nav>
 
-      {/* ================= LOGIN MODAL ================= */}
+      {/* LOGIN MODAL */}
       <LoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLoginSuccess={(userData) => {
-          if (!userData) return;
           localStorage.setItem("user", JSON.stringify(userData));
           localStorage.setItem("isLoggedIn", "true");
           setUser(userData);
