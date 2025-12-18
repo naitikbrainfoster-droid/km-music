@@ -28,6 +28,9 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
 import UploadSong from "./pages/admin/UploadSong";
 import Enquiry from "./pages/admin/Enquiry";
+import AddArtist from "./pages/admin/AddArtist";
+import AddSong from "./pages/admin/AddSong";
+import AddUpcoming from "./pages/admin/AddUpcoming";
 
 function AppContent() {
   const location = useLocation();
@@ -113,8 +116,17 @@ function AppContent() {
   }
 />
 
+<Route path="/admin/artists/add" element={ <AdminProtectedRoute>
+                                           <AddArtist />
+                                          </AdminProtectedRoute>} />
 
+<Route path="/admin/songs/add" element={ <AdminProtectedRoute>
+                                           <AddSong />
+                                          </AdminProtectedRoute>} />
 
+<Route path="/admin/upcoming/add" element={ <AdminProtectedRoute>
+                                           <AddUpcoming />
+                                          </AdminProtectedRoute>} />
       </Routes>
 
       {!isAdminRoute && <Footer />}

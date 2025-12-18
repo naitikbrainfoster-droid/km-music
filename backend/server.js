@@ -1,7 +1,12 @@
+require("dotenv").config({ path: "./config/.env" }); // ✅ ADD THIS
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const artistRoute = require("./routes/artist");
+const songRoute = require("./routes/song");
+const upcomingSongRoute = require("./routes/upcomingSong");
 
 const app = express();
 
@@ -25,6 +30,9 @@ app.use("/favorites", favoritesRoute);
 app.use("/user", userRoute);
 app.use("/api/admin", adminAuthRoute); // ✅ VERY IMPORTANT
 app.use("/api/enquiry", enquiryRoute);
+app.use("/api/artists", artistRoute);
+app.use("/api/songs", songRoute);
+app.use("/api/upcoming", upcomingSongRoute);
 // =======================
 // SERVE UPLOADS
 // =======================
@@ -33,8 +41,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // =======================
 // MONGO DB
 // =======================
-const MONGO_URI =
-  "mongodb+srv://km_db_user:Km0126@km.0g6ehcw.mongodb.net/km_music_app";
+const MONGO_URI = process.env.MONGO_URI;
+
 
 // =======================
 // START SERVER

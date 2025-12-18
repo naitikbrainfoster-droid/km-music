@@ -59,7 +59,7 @@ const AdminSidebar = () => {
         {/* ARTISTS */}
         <Section title="Artists">
           <Item to="/admin/artists/add" label="Add Artist" />
-          <Item to="/admin/artists" label="View Artists" />
+          <Item to="/admin/artists/view" label="View Artists" />
         </Section>
 
         {/* SONGS */}
