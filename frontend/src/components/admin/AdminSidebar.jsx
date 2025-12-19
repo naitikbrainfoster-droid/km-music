@@ -12,6 +12,7 @@ const Section = ({ title, children }) => (
 const Item = ({ to, label }) => (
   <NavLink
     to={to}
+    end
     className={({ isActive }) =>
       `
       flex items-center gap-3 px-4 py-2 rounded-lg text-sm
@@ -65,19 +66,19 @@ const AdminSidebar = () => {
         {/* SONGS */}
         <Section title="Songs">
           <Item to="/admin/songs/add" label="Add Song" />
-          <Item to="/admin/songs" label="View Songs" />
+          <Item to="/admin/songs/" label="View Songs" />
         </Section>
 
         {/* UPCOMING SONGS */}
         <Section title="Upcoming Songs">
           <Item to="/admin/upcoming/add" label="Add Upcoming" />
-          <Item to="/admin/upcoming" label="View Upcoming" />
+          <Item to="/admin/upcoming/" label="View Upcoming" />
         </Section>
 
         {/* USERS (LAST) */}
         <Section title="Users">
           <Item to="/admin/users/register" label="Register User" />
-          <Item to="/admin/users" label="View Users" />
+          <Item to="/admin/users/view" label="View Users" />
         </Section>
 
       </div>

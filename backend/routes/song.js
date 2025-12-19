@@ -162,4 +162,87 @@ router.get("/", async (req, res) => {
   }
 });
 
+// ✅ GET SINGLE SONG
+router.get("/:id", async (req, res) => {
+  try {
+    const song = await Song.findById(req.params.id)
+      .populate("artistId", "name imageUrl");
+
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      song,
+    });
+  } catch (error) {
+    console.error("GET SONG ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ✅ UPDATE SONG
+router.put("/:id", multiUpload, async (req, res) => {
+  try {
+    const { songName, category, likes, audioType, description } = req.body;
+
+    const song = await Song.findById(req.params.id);
+
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    // Update fields
+    song.songName = songName || song.songName;
+    song.category = category || song.category;
+    song.audioType = audioType || song.audioType;
+    song.description = description || song.description;
+    
+    if (likes !== undefined) {
+      song.likes = likes;
+    }
+
+    // Update files if new ones uploaded
+    if (req.files) {
+      if (req.files.song) {
+        song.songUrl = req.files.song[0].location;
+      }
+      if (req.files.thumbnail) {
+        song.thumbnailUrl = req.files.thumbnail[0].location;
+      }
+    }
+
+    await song.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Song updated successfully",
+      song,
+    });
+  } catch (error) {
+    console.error("UPDATE SONG ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ✅ DELETE SONG
+router.delete("/:id", async (req, res) => {
+  try {
+    const song = await Song.findByIdAndDelete(req.params.id);
+
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Song deleted successfully",
+    });
+  } catch (error) {
+    console.error("DELETE SONG ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

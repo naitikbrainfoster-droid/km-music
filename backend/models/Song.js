@@ -34,6 +34,17 @@ const songSchema = new mongoose.Schema(
       required: true,
     },
 
+    audioType: {
+      type: String,
+      enum: ["MP3", "Video"],
+      default: "MP3",
+    },
+
+    description: {
+      type: String,
+      default: "",
+    },
+
     likes: {
       type: Number,
       default: 0,

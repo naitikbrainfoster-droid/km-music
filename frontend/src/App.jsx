@@ -31,6 +31,11 @@ import Enquiry from "./pages/admin/Enquiry";
 import AddArtist from "./pages/admin/AddArtist";
 import AddSong from "./pages/admin/AddSong";
 import AddUpcoming from "./pages/admin/AddUpcoming";
+import ViewArtists from "./pages/admin/ViewArtists";
+import EditArtist from "./pages/admin/EditArtist";
+import ViewSongs from "./pages/admin/ViewSongs";
+import EditSong from "./pages/admin/EditSong";
+import ViewUpcoming from "./pages/admin/ViewUpcoming";
 
 function AppContent() {
   const location = useLocation();
@@ -120,12 +125,32 @@ function AppContent() {
                                            <AddArtist />
                                           </AdminProtectedRoute>} />
 
+<Route path="/admin/artists/view" element={ <AdminProtectedRoute>
+                                           <ViewArtists />
+                                          </AdminProtectedRoute>} />
+
+<Route path="/admin/artists/edit/:id" element={ <AdminProtectedRoute>
+                                           <EditArtist />
+                                          </AdminProtectedRoute>} />
+
 <Route path="/admin/songs/add" element={ <AdminProtectedRoute>
                                            <AddSong />
                                           </AdminProtectedRoute>} />
 
+<Route path="/admin/songs" element={ <AdminProtectedRoute>
+                                           <ViewSongs />
+                                          </AdminProtectedRoute>} />
+
+<Route path="/admin/songs/edit/:id" element={ <AdminProtectedRoute>
+                                           <EditSong />
+                                          </AdminProtectedRoute>} />
+
 <Route path="/admin/upcoming/add" element={ <AdminProtectedRoute>
                                            <AddUpcoming />
+                                          </AdminProtectedRoute>} />
+
+<Route path="/admin/upcoming" element={ <AdminProtectedRoute>
+                                           <ViewUpcoming />
                                           </AdminProtectedRoute>} />
       </Routes>
 
