@@ -47,9 +47,7 @@ const AddUpcoming = () => {
       data.append("trailer", trailerFile);
       data.append("thumbnail", thumbnailFile);
       
-      if (formData.itemType === "Video" && videoThumbnailFile) {
-        data.append("videoThumbnail", videoThumbnailFile);
-      }
+  
 
       const res = await axios.post(
         "http://localhost:5000/api/upcoming/add",

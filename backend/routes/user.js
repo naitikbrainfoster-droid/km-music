@@ -79,4 +79,18 @@ router.put("/update", upload.single("avatar"), async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.error("GET USERS ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

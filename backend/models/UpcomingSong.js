@@ -35,6 +35,12 @@ const upcomingSongSchema = new mongoose.Schema(
       required: true,
     },
 
+    // ✅ ADD THIS
+    thumbnailUrl: {
+      type: String,
+      required: true,
+    },
+
     isActive: {
       type: Boolean,
       default: true,

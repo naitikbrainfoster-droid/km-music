@@ -78,7 +78,7 @@ const AdminSidebar = () => {
         {/* USERS (LAST) */}
         <Section title="Users">
           <Item to="/admin/users/register" label="Register User" />
-          <Item to="/admin/users/view" label="View Users" />
+          <Item to="/admin/users" label="View Users" />
         </Section>
 
       </div>

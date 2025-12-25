@@ -36,6 +36,11 @@ import EditArtist from "./pages/admin/EditArtist";
 import ViewSongs from "./pages/admin/ViewSongs";
 import EditSong from "./pages/admin/EditSong";
 import ViewUpcoming from "./pages/admin/ViewUpcoming";
+import EditUpcoming from "./pages/admin/EditUpcoming";
+import RegisterUser from "./pages/admin/RegisterUser";
+import ViewUsers from "./pages/admin/ViewUsers";
+import EditUser from "./pages/admin/EditUser";
+
 
 function AppContent() {
   const location = useLocation();
@@ -152,6 +157,39 @@ function AppContent() {
 <Route path="/admin/upcoming" element={ <AdminProtectedRoute>
                                            <ViewUpcoming />
                                           </AdminProtectedRoute>} />
+
+<Route path="/admin/upcoming/edit/:id" element={
+  <AdminProtectedRoute>
+    <EditUpcoming />
+  </AdminProtectedRoute>
+}
+/>
+{/* USERS */}
+<Route
+  path="/admin/users/register"
+  element={
+    <AdminProtectedRoute>
+      <RegisterUser />
+    </AdminProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/users"
+  element={
+    <AdminProtectedRoute>
+      <ViewUsers />
+    </AdminProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/users/edit/:id"
+  element={
+    <AdminProtectedRoute>
+      <EditUser />
+    </AdminProtectedRoute>
+  }
+/>
+
       </Routes>
 
       {!isAdminRoute && <Footer />}
