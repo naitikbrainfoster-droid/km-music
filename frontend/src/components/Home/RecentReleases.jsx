@@ -1,15 +1,10 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import axios from "axios";
 import { FaPlay, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-import home1 from "../../assets/img/recent_releases/home1.png";
-import home2 from "../../assets/img/recent_releases/home2.png";
-import home3 from "../../assets/img/recent_releases/home3.png";
-import home4 from "../../assets/img/recent_releases/home4.png";
-import home5 from "../../assets/img/recent_releases/home5.png";
-import home6 from "../../assets/img/recent_releases/home6.png";
 
 const RecentReleases = () => {
   const scrollRef = useRef();
+  const [albums, setAlbums] = useState([]);
 
   const slideLeft = () => {
     scrollRef.current.scrollBy({ left: -280, behavior: "smooth" });
@@ -18,6 +13,22 @@ const RecentReleases = () => {
   const slideRight = () => {
     scrollRef.current.scrollBy({ left: 280, behavior: "smooth" });
   };
+
+  // ✅ FETCH RECENT SONGS (LATEST FIRST)
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/songs"
+        );
+        setAlbums(res.data.songs);
+      } catch (error) {
+        console.error("RECENT SONG FETCH ERROR:", error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
 
   // Auto slide every 3s
   useEffect(() => {
@@ -30,15 +41,6 @@ const RecentReleases = () => {
     return () => clearInterval(auto);
   }, []);
 
-  const albums = [
-    { img: home1, title: "Something", artist: "Ray Studio" },
-    { img: home2, title: "M Bobby", artist: "Awsome Song" },
-    { img: home3, title: "Life Of Pie", artist: "Holly Studio" },
-    { img: home4, title: "Love Is Blind", artist: "Playboy" },
-    { img: home5, title: "Napa Fashion", artist: "Music Go" },
-    { img: home6, title: "Urban Mood", artist: "Studio One" },
-  ];
-
   const hideScrollbar = {
     scrollbarWidth: "none",
     msOverflowStyle: "none",
@@ -49,9 +51,7 @@ const RecentReleases = () => {
   `;
 
   return (
-    // FULL WIDTH WRAPPER (keeps section centered on every zoom)
     <div className="w-full flex justify-center overflow-hidden">
-      {/* FIXED CENTERED CONTAINER */}
       <div className="w-full max-w-[1900px] px-3 sm:px-6 md:px-10">
 
         <style>{hideScrollbarWebkit}</style>
@@ -69,7 +69,7 @@ const RecentReleases = () => {
               bg-gradient-to-r from-purple-500 to-indigo-600
             "
           >
-            TOP ARTISTS
+            TOP SONGS
           </button>
 
           <div className="flex gap-2 sm:gap-4">
@@ -106,7 +106,7 @@ const RecentReleases = () => {
         </div>
 
         <h2 className="text-white text-2xl sm:text-3xl font-bold mt-6">
-          Recent Releases Albums
+          Recent Releases Songs
         </h2>
 
         {/* CARD SCROLLER */}
@@ -120,9 +120,9 @@ const RecentReleases = () => {
             snap-x snap-mandatory
           "
         >
-          {albums.map((item, index) => (
+          {albums.map((item) => (
             <div
-              key={index}
+              key={item._id}
               className="
                 snap-start
                 shrink-0
@@ -148,9 +148,15 @@ const RecentReleases = () => {
                 "
               >
                 <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
+                  src={item.thumbnailUrl}
+                  alt={item.songName}
+                  className="
+                    w-full 
+                    h-full 
+                    object-cover 
+                    object-center 
+                    bg-black
+                  "
                 />
               </div>
 
@@ -164,12 +170,12 @@ const RecentReleases = () => {
                   flex justify-between items-center
                 "
               >
-                <div>
-                  <h3 className="text-white text-sm sm:text-lg font-semibold">
-                    {item.title}
+                <div className="min-h-[48px]">
+                  <h3 className="text-white text-sm sm:text-lg font-semibold line-clamp-2">
+                    {item.songName}
                   </h3>
-                  <p className="text-gray-300 text-xs sm:text-sm">
-                    {item.artist}
+                  <p className="text-gray-300 text-xs sm:text-sm truncate">
+                    {item.artistName}
                   </p>
                 </div>
 
@@ -186,6 +192,7 @@ const RecentReleases = () => {
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );

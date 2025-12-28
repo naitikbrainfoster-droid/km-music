@@ -15,10 +15,14 @@ const AddSong = () => {
     description: "",
   });
 
-  const [songFile, setSongFile] = useState(null);
+  // 🔥 MULTIPLE SONG FILES
+  const [songFiles, setSongFiles] = useState([]);
   const [thumbnailFile, setThumbnailFile] = useState(null);
+
+  // VIDEO
   const [videoFile, setVideoFile] = useState(null);
   const [videoThumbnailFile, setVideoThumbnailFile] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   const categories = [
@@ -37,7 +41,7 @@ const AddSong = () => {
 
     const withIds = (res.data.artists || []).map((a, index) => ({
       ...a,
-      numericId: index + 1, // ✅ plain numeric ID
+      numericId: index + 1,
     }));
 
     setArtists(withIds);
@@ -55,9 +59,18 @@ const AddSong = () => {
       return;
     }
 
-    if (!songFile || !thumbnailFile) {
-      alert("Song file & thumbnail required");
-      return;
+    if (formData.audioType === "MP3") {
+      if (!songFiles.length || !thumbnailFile) {
+        alert("MP3 files & thumbnail required");
+        return;
+      }
+    }
+
+    if (formData.audioType === "Video") {
+      if (!videoFile || !videoThumbnailFile) {
+        alert("Video & video thumbnail required");
+        return;
+      }
     }
 
     const data = new FormData();
@@ -68,9 +81,16 @@ const AddSong = () => {
     data.append("audioType", formData.audioType);
     data.append("likes", formData.likes);
     data.append("description", formData.description);
-    data.append("song", songFile);
-    data.append("thumbnail", thumbnailFile);
 
+    // 🔥 MULTIPLE MP3 FILES
+    if (formData.audioType === "MP3") {
+      songFiles.forEach((file) => {
+        data.append("song", file); // backend: songs[]
+      });
+      data.append("thumbnail", thumbnailFile);
+    }
+
+    // 🔥 VIDEO
     if (formData.audioType === "Video") {
       data.append("video", videoFile);
       data.append("videoThumbnail", videoThumbnailFile);
@@ -78,11 +98,20 @@ const AddSong = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:5000/api/songs/add", data);
-      alert("Song added successfully 🎵");
+      await axios.post("http://localhost:5000/api/songs/add", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      alert("Song(s) uploaded successfully 🎵");
+
+      // reset
+      setSongFiles([]);
+      setThumbnailFile(null);
+      setVideoFile(null);
+      setVideoThumbnailFile(null);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong ❌");
+      alert("Upload failed ❌");
     } finally {
       setLoading(false);
     }
@@ -96,18 +125,13 @@ const AddSong = () => {
 
   return (
     <AdminLayout>
-      {/* ❌ NO overflow-hidden, ❌ NO inner scroll */}
       <div className="max-w-6xl mx-auto p-6 text-white">
         <h2 className="text-3xl font-bold mb-6">🎵 Add New Song</h2>
 
-        {/* ARTIST DROPDOWN */}
+        {/* ARTIST */}
         <div className="mb-8">
-          <label className="block mb-2 text-gray-300">
-            Select Artist *
-          </label>
-
           <input
-            placeholder="Search by artist name or ID (1,2,3...)"
+            placeholder="Search artist by name or ID"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded mb-2"
@@ -121,104 +145,103 @@ const AddSong = () => {
                   setSelectedArtist(a);
                   setSearch(`${a.numericId} ${a.name}`);
                 }}
-                className={`p-3 cursor-pointer flex items-center
-                  hover:bg-purple-700 transition
-                  ${
-                    selectedArtist?._id === a._id
-                      ? "bg-purple-600"
-                      : ""
-                  }`}
+                className={`p-3 cursor-pointer hover:bg-purple-700 ${
+                  selectedArtist?._id === a._id ? "bg-purple-600" : ""
+                }`}
               >
-                <span className="text-purple-400 mr-3">
-                  {a.numericId}
-                </span>
-                <span>{a.name}</span>
+                <span className="text-purple-400 mr-2">{a.numericId}</span>
+                {a.name}
               </div>
             ))}
           </div>
         </div>
 
-        {/* SONG FORM */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block mb-2">Song Name *</label>
-              <input
-                name="songName"
-                value={formData.songName}
-                onChange={handleChange}
-                className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded"
-                required
-              />
-            </div>
+          <input
+            name="songName"
+            placeholder="Song Name"
+            value={formData.songName}
+            onChange={handleChange}
+            className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded"
+            required
+          />
 
-            <div>
-              <label className="block mb-2">Select Category *</label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded"
-                required
-              >
-                <option value="">Choose category</option>
-                {categories.map((c) => (
-                  <option key={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded"
+            required
+          >
+            <option value="">Choose category</option>
+            {categories.map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
 
           {/* AUDIO TYPE */}
-          <div>
-            <label className="block mb-2">Audio Type *</label>
-            <div className="flex gap-8">
-              <label>
-                <input
-                  type="radio"
-                  name="audioType"
-                  value="MP3"
-                  checked={formData.audioType === "MP3"}
-                  onChange={handleChange}
-                /> MP3
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="audioType"
-                  value="Video"
-                  checked={formData.audioType === "Video"}
-                  onChange={handleChange}
-                /> Video
-              </label>
-            </div>
+          <div className="flex gap-8">
+            <label>
+              <input
+                type="radio"
+                name="audioType"
+                value="MP3"
+                checked={formData.audioType === "MP3"}
+                onChange={handleChange}
+              /> MP3
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="audioType"
+                value="Video"
+                checked={formData.audioType === "Video"}
+                onChange={handleChange}
+              /> Video
+            </label>
           </div>
 
-          {/* FILE UPLOADS */}
+          {/* MP3 MULTIPLE */}
           {formData.audioType === "MP3" && (
-            <div className="grid md:grid-cols-2 gap-6">
-              <input type="file" onChange={(e) => setSongFile(e.target.files[0])}
-                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded" />
-              <input type="file" onChange={(e) => setThumbnailFile(e.target.files[0])}
-                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded" />
-            </div>
+            <>
+              <input
+                type="file"
+                multiple
+                onChange={(e) => setSongFiles([...e.target.files])}
+                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded"
+              />
+              <input
+                type="file"
+                onChange={(e) => setThumbnailFile(e.target.files[0])}
+                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded"
+              />
+            </>
           )}
 
+          {/* VIDEO */}
           {formData.audioType === "Video" && (
-            <div className="grid md:grid-cols-2 gap-6">
-              <input type="file" onChange={(e) => setVideoFile(e.target.files[0])}
-                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded" />
-              <input type="file" onChange={(e) => setVideoThumbnailFile(e.target.files[0])}
-                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded" />
-            </div>
+            <>
+              <input
+                type="file"
+                onChange={(e) => setVideoFile(e.target.files[0])}
+                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded"
+              />
+              <input
+                type="file"
+                onChange={(e) =>
+                  setVideoThumbnailFile(e.target.files[0])
+                }
+                className="file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded"
+              />
+            </>
           )}
 
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded h-32"
             placeholder="Description / Lyrics"
+            className="w-full p-3 bg-[#0b0b0b] border border-gray-700 rounded h-32"
           />
 
           <button
@@ -226,7 +249,7 @@ const AddSong = () => {
             disabled={loading}
             className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 py-4 rounded text-lg font-semibold"
           >
-            🎵 {loading ? "Uploading..." : "Add Song"}
+            {loading ? "Uploading..." : "Add Song(s)"}
           </button>
         </form>
       </div>

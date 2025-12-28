@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
-
+import { PlayerProvider } from "./context/PlayerProvider";
 /* user pages */
 import Profile from "./components/menuitems/Profile";
 import Setting from "./components/menuitems/Setting";
@@ -22,6 +22,7 @@ import Artistsmusic from "./pages/Artistsmusic";
 import Upcoming from "./pages/Upcoming";
 import Upcominginner from "./pages/Upcominginner";
 import Contact from "./pages/Contact";
+
 
 /* admin pages */
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -65,7 +66,7 @@ function AppContent() {
   return (
     <>
       {!isAdminRoute && <Navbar navType={navType} />}
-
+      <PlayerProvider>
       <Routes>
         {/* ================= USER ROUTES ================= */}
         <Route path="/" element={<Home />} />
@@ -76,6 +77,7 @@ function AppContent() {
         <Route path="/upcoming" element={<Upcoming />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/song" element={<Upcominginner />} />
+        
 
         {/* 🔒 USER PROTECTED */}
         <Route
@@ -191,7 +193,7 @@ function AppContent() {
 />
 
       </Routes>
-
+      </PlayerProvider>
       {!isAdminRoute && <Footer />}
     </>
   );

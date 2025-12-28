@@ -4,6 +4,7 @@ const Artist = require("../models/Artist");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const s3 = require("../config/s3");
+const uploadSong = require("../config/uploadSong");
 
 const router = express.Router();
 
@@ -24,8 +25,8 @@ const upload = multer({
 });
 
 const multiUpload = upload.fields([
-  { name: "song", maxCount: 1 },
-  { name: "thumbnail", maxCount: 1 },
+  { name: "song", maxCount: 10 },
+  { name: "thumbnail", maxCount: 10 },
 ]);
 
 // ✅ GET ALL ARTISTS (for dropdown)
@@ -99,11 +100,16 @@ router.post("/add", multiUpload, async (req, res) => {
       });
     }
 
-    if (!req.files || !req.files.song || !req.files.thumbnail) {
+    if (
+      !req.files ||
+      !req.files.song?.length ||
+      !req.files.thumbnail?.length
+    ) {
       return res.status(400).json({
         message: "Song and thumbnail files are required",
       });
     }
+    
 
     // Verify artist exists and name matches
     const artist = await Artist.findById(artistId);
@@ -117,28 +123,45 @@ router.post("/add", multiUpload, async (req, res) => {
       });
     }
 
-    // Get file locations from multer-s3
-    const songFile = req.files.song[0];
-    const thumbnailFile = req.files.thumbnail[0];
+// 🔥 MULTIPLE + SINGLE SONG UPLOAD LOGIC
+const songFiles = req.files.song;
+const thumbnailFiles = req.files.thumbnail;
 
-    // Create song
-    const song = new Song({
-      songName,
-      artistId,
-      artistName,
-      songUrl: songFile.location,
-      thumbnailUrl: thumbnailFile.location,
-      category,
-      likes: likes || 0,
-    });
+const savedSongs = [];
 
-    await song.save();
+for (let i = 0; i < songFiles.length; i++) {
+  const newSong = new Song({
+    songName:
+      songFiles.length > 1
+        ? `${songName} ${i + 1}`
+        : songName,
 
-    res.status(201).json({
-      success: true,
-      message: "Song added successfully",
-      song,
-    });
+    artistId,
+    artistName,
+    songUrl: songFiles[i].location,
+
+    // ✅ same thumbnail OR matching index
+    thumbnailUrl:
+      thumbnailFiles[i]?.location ||
+      thumbnailFiles[0].location,
+
+    category,
+    likes: likes || 0,
+  });
+
+  await newSong.save();
+  savedSongs.push(newSong);
+}
+
+res.status(201).json({
+  success: true,
+  message:
+    songFiles.length > 1
+      ? "Multiple songs added successfully"
+      : "Song added successfully",
+  songs: savedSongs,
+});
+
   } catch (error) {
     console.error("ADD SONG ERROR:", error);
     res.status(500).json({ message: "Server error" });
