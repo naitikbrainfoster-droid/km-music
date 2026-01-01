@@ -1,61 +1,53 @@
-require("dotenv").config({ path: "./config/.env" }); // ✅ ADD THIS
+require("dotenv").config({ path: "./config/.env" });
 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-const artistRoute = require("./routes/artist");
-const songRoute = require("./routes/song");
-const upcomingSongRoute = require("./routes/upcomingSong");
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ["http://kundramusic.com", "https://www.kundramusic.com"],
+  credentials: true
+}));
 
 // =======================
 // ROUTES
 // =======================
-const authRoute = require("./routes/auth");
-const favoritesRoute = require("./routes/favorites");
-const userRoute = require("./routes/user");
-const adminAuthRoute = require("./routes/adminAuth"); // ✅ VERY IMPORTANT
-const enquiryRoute = require("./routes/enquiry");
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/favorites", require("./routes/favorites"));
+app.use("/api/user", require("./routes/user"));
+app.use("/api/admin", require("./routes/adminAuth"));
+app.use("/api/admin", require("./routes/admin"));
+app.use("/api/enquiry", require("./routes/enquiry"));
+app.use("/api/artists", require("./routes/artist"));
+app.use("/api/songs", require("./routes/song"));
+app.use("/api/upcoming", require("./routes/upcomingSong"));
 
 // =======================
-// USE ROUTES
-// =======================
-app.use("/", authRoute);
-app.use("/favorites", favoritesRoute);
-app.use("/user", userRoute);
-app.use("/api/admin", adminAuthRoute); // ✅ VERY IMPORTANT
-app.use("/api/enquiry", enquiryRoute);
-app.use("/api/artists", artistRoute);
-app.use("/api/songs", songRoute);
-app.use("/api/upcoming", upcomingSongRoute);
-// =======================
-// SERVE UPLOADS
+// STATIC
 // =======================
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use("/api/admin", require("./routes/admin"));
-
 
 // =======================
-// MONGO DB
+// HEALTH
 // =======================
-const MONGO_URI = process.env.MONGO_URI;
-
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 // =======================
 // START SERVER
 // =======================
 async function start() {
   try {
-    await mongoose.connect(MONGO_URI);
-    console.log("✅ Connected to MongoDB Atlas");
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ Connected to MongoDB");
 
-    app.listen(5000, () => {
-      console.log("🚀 Server running on http://localhost:5000");
+    app.listen(5000, "0.0.0.0", () => {
+      console.log("🚀 API running on port 5000");
     });
   } catch (err) {
     console.error("❌ Mongo error:", err);
@@ -63,10 +55,3 @@ async function start() {
 }
 
 start();
-
-// =======================
-// HEALTH CHECK
-// =======================
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});

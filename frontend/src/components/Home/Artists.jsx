@@ -13,7 +13,7 @@ const Artists = () => {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const res = await axios.get("/api/artists");
+        const res = await axios.get("http://kundramusic.com/api/artists");
         setArtists(res.data.artists || []);
       } catch (err) {
         console.error("Artists fetch error:", err);
