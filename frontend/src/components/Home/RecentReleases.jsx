@@ -20,7 +20,7 @@ const RecentReleases = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/songs");
+        const res = await axios.get("/api/songs");
         setAlbums(res.data.songs);
       } catch (error) {
         console.error("RECENT SONG FETCH ERROR:", error);

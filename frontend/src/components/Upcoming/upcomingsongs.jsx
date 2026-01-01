@@ -23,7 +23,7 @@ const UpcomingSongs = () => {
   /* FETCH UPCOMING SONGS */
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/upcoming")
+      .get("/api/upcoming")
       .then((res) => {
         setSongs(res.data.upcomingSongs || []);
       })
@@ -49,9 +49,8 @@ const UpcomingSongs = () => {
                 key={genre}
                 onClick={() => setActiveGenre(genre)}
                 className={`relative h-[64px] rounded-xl overflow-hidden cursor-pointer
-                            transition-all duration-300 ${
-                              isActive ? "scale-[1.03]" : ""
-                            }`}
+                            transition-all duration-300 ${isActive ? "scale-[1.03]" : ""
+                  }`}
                 style={{
                   backgroundImage: isActive ? `url(${genreBg})` : "none",
                   backgroundSize: "cover",
@@ -60,10 +59,9 @@ const UpcomingSongs = () => {
               >
                 <div
                   className={`absolute inset-0 transition-all duration-300
-                    ${
-                      isActive
-                        ? "bg-gradient-to-r from-blue-500/80 to-purple-600/80"
-                        : "bg-black"
+                    ${isActive
+                      ? "bg-gradient-to-r from-blue-500/80 to-purple-600/80"
+                      : "bg-black"
                     }`}
                 />
                 <div className="relative z-10 h-full flex items-center justify-center

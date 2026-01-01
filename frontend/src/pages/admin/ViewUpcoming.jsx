@@ -17,7 +17,7 @@ const ViewUpcoming = () => {
   const fetchUpcomingSongs = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/upcoming");
+      const res = await axios.get("/api/upcoming");
       setUpcomingSongs(res.data.upcomingSongs || []);
     } catch (err) {
       console.error("Error fetching upcoming songs:", err);
@@ -33,7 +33,7 @@ const ViewUpcoming = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/upcoming/${id}`);
+      await axios.delete(`/api/upcoming/${id}`);
       alert("Upcoming song deleted successfully ✅");
       fetchUpcomingSongs(); // Refresh list
     } catch (err) {
@@ -102,8 +102,8 @@ const ViewUpcoming = () => {
                     Sung By
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
-  Category
-</th>
+                    Category
+                  </th>
 
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     Type
@@ -149,21 +149,21 @@ const ViewUpcoming = () => {
 
                       {/* Sung By */}
                       <td className="px-6 py-4 text-gray-300">
-                      {song.sungBy?.name || "—"}
+                        {song.sungBy?.name || "—"}
                       </td>
-                      
+
                       <td className="px-6 py-4 text-gray-300">
-                       {song.category}
-                       </td>
+                        {song.category}
+                      </td>
 
                       {/* Type */}
                       <td className="px-6 py-4">
-  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-600/20 text-blue-400 border border-blue-500/30">
-    MP4
-  </span>
-</td>
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                          MP4
+                        </span>
+                      </td>
 
-                      
+
 
                       {/* Published Date */}
                       <td className="px-6 py-4 text-gray-300">
@@ -173,11 +173,10 @@ const ViewUpcoming = () => {
                       {/* Status */}
                       <td className="px-6 py-4">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            song.isActive
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${song.isActive
                               ? "bg-green-600/20 text-green-400 border border-green-500/30"
                               : "bg-red-600/20 text-red-400 border border-red-500/30"
-                          }`}
+                            }`}
                         >
                           {song.isActive ? "Active" : "Inactive"}
                         </span>
@@ -230,11 +229,10 @@ const ViewUpcoming = () => {
                   <button
                     key={i}
                     onClick={() => setCurrentPage(i + 1)}
-                    className={`px-4 py-2 rounded-lg transition ${
-                      currentPage === i + 1
+                    className={`px-4 py-2 rounded-lg transition ${currentPage === i + 1
                         ? "bg-purple-600 text-white"
                         : "bg-[#1f1f1f] text-white hover:bg-[#2a2a2a]"
-                    }`}
+                      }`}
                   >
                     {i + 1}
                   </button>

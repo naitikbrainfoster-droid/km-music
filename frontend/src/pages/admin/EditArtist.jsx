@@ -6,7 +6,7 @@ import AdminLayout from "../../components/admin/AdminLayout";
 const EditArtist = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     bio: "",
@@ -28,9 +28,9 @@ const EditArtist = () => {
   const fetchArtist = async () => {
     try {
       setFetchLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
+      const res = await axios.get(`/api/artists/${id}`);
       const artist = res.data.artist;
-      
+
       setFormData({
         name: artist.name || "",
         bio: artist.bio || "",
@@ -74,13 +74,13 @@ const EditArtist = () => {
       data.append("youtube", formData.youtube);
       data.append("facebook", formData.facebook);
       data.append("isActive", formData.isActive);
-      
+
       if (newImage) {
         data.append("image", newImage);
       }
 
       const res = await axios.put(
-        `http://localhost:5000/api/artists/${id}`,
+        `/api/artists/${id}`,
         data,
         {
           headers: {
@@ -130,7 +130,7 @@ const EditArtist = () => {
         {/* Form */}
         <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] p-8 rounded-2xl shadow-2xl border border-purple-900/20">
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* Current Image Preview */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">

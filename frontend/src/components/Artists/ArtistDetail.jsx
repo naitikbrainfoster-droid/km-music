@@ -14,7 +14,7 @@ const ArtistDetail = ({ artist }) => {
 
     const fetchSongs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/songs");
+        const res = await axios.get("/api/songs");
 
         const artistSongs = (res.data.songs || []).filter(
           (song) => song.artistId?._id === artist._id

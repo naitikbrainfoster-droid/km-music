@@ -14,7 +14,7 @@ const UpcomingInner = () => {
   useEffect(() => {
     if (!song && id) {
       axios
-        .get(`http://localhost:5000/api/upcoming/${id}`)
+        .get(`/api/upcoming/${id}`)
         .then((res) => {
           setSong(res.data.upcoming);
           setLoading(false);
@@ -52,7 +52,7 @@ const UpcomingInner = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      
+
       {/* ================= HERO SECTION ================= */}
       <Upcominghero song={song} />
 

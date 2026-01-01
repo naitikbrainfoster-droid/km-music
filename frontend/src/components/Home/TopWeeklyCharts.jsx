@@ -17,7 +17,7 @@ export default function WeeklyPlaylists() {
   useEffect(() => {
     const fetchLatestSongs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/songs");
+        const res = await axios.get("/api/songs");
 
         // ✅ REAL LATEST FIRST
         const latestThree = [...res.data.songs]

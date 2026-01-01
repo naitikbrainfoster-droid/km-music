@@ -17,7 +17,7 @@ const ViewArtists = () => {
   const fetchArtists = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/artists");
+      const res = await axios.get("/api/artists");
       setArtists(res.data.artists || []);
     } catch (err) {
       console.error("Error fetching artists:", err);
@@ -33,7 +33,7 @@ const ViewArtists = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/artists/${id}`);
+      await axios.delete(`/api/artists/${id}`);
       alert("Artist deleted successfully ✅");
       fetchArtists(); // Refresh list
     } catch (err) {
@@ -149,11 +149,10 @@ const ViewArtists = () => {
                       {/* Status */}
                       <td className="px-6 py-4">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            artist.isActive
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${artist.isActive
                               ? "bg-green-600/20 text-green-400 border border-green-500/30"
                               : "bg-red-600/20 text-red-400 border border-red-500/30"
-                          }`}
+                            }`}
                         >
                           {artist.isActive ? "Active" : "Inactive"}
                         </span>
@@ -206,11 +205,10 @@ const ViewArtists = () => {
                   <button
                     key={i}
                     onClick={() => setCurrentPage(i + 1)}
-                    className={`px-4 py-2 rounded-lg transition ${
-                      currentPage === i + 1
+                    className={`px-4 py-2 rounded-lg transition ${currentPage === i + 1
                         ? "bg-purple-600 text-white"
                         : "bg-[#1f1f1f] text-white hover:bg-[#2a2a2a]"
-                    }`}
+                      }`}
                   >
                     {i + 1}
                   </button>

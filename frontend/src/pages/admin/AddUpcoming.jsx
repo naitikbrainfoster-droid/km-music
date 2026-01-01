@@ -29,7 +29,7 @@ const AddUpcoming = () => {
   const fetchArtists = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/songs/artists"
+        "/api/songs/artists"
       );
 
       const withIds = (res.data.artists || []).map((a, index) => ({
@@ -78,7 +78,7 @@ const AddUpcoming = () => {
       data.append("category", formData.category);
 
       await axios.post(
-        "http://localhost:5000/api/upcoming/add",
+        "/api/upcoming/add",
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -95,7 +95,7 @@ const AddUpcoming = () => {
         youtubeUrl: "",
         category: "Punjabi",
       });
-      
+
       setSelectedArtist(null);
       setSearch("");
       setThumbnailFile(null);
@@ -122,9 +122,9 @@ const AddUpcoming = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] p-8 rounded-2xl shadow-2xl border border-purple-900/20">
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              
+
               {/* LEFT COLUMN */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-purple-400 mb-4">
@@ -213,27 +213,27 @@ const AddUpcoming = () => {
                 </div>
 
                 {/* Category */}
-<div>
-  <label className="block text-sm font-medium text-gray-300 mb-2">
-    Category *
-  </label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Category *
+                  </label>
 
-  <select
-    name="category"
-    value={formData.category}
-    onChange={handleChange}
-    required
-    className="w-full p-3 rounded-xl bg-[#0d0d0d] border border-gray-800 outline-none focus:border-purple-500 transition text-white"
-  >
-    <option value="Punjabi">Punjabi</option>
-    <option value="Haryanvi">Haryanvi</option>
-    <option value="Bollywood">Bollywood</option>
-    <option value="Hollywood">Hollywood</option>
-    <option value="Rock">Rock</option>
-    <option value="Culture">Culture</option>
-  </select>
-</div>
-  
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 rounded-xl bg-[#0d0d0d] border border-gray-800 outline-none focus:border-purple-500 transition text-white"
+                  >
+                    <option value="Punjabi">Punjabi</option>
+                    <option value="Haryanvi">Haryanvi</option>
+                    <option value="Bollywood">Bollywood</option>
+                    <option value="Hollywood">Hollywood</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Culture">Culture</option>
+                  </select>
+                </div>
+
 
                 {/* YouTube URL */}
                 <div>

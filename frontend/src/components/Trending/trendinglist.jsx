@@ -11,7 +11,7 @@ const TrendingList = ({ selectedGenre }) => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/songs");
+        const res = await axios.get("/api/songs");
         setSongs(res.data.songs || []);
       } catch (err) {
         console.error("Songs fetch error:", err);
@@ -70,10 +70,9 @@ const TrendingList = ({ selectedGenre }) => {
                   w-14 h-14 rounded-full
                   flex items-center justify-center
                   transition
-                  ${
-                    currentSong?._id === song._id
-                      ? "bg-gradient-to-r from-[#4A78FF] to-[#B83CFF]"
-                      : "bg-white/20 hover:bg-white/30"
+                  ${currentSong?._id === song._id
+                    ? "bg-gradient-to-r from-[#4A78FF] to-[#B83CFF]"
+                    : "bg-white/20 hover:bg-white/30"
                   }
                 `}
               >

@@ -17,7 +17,7 @@ const ViewSongs = () => {
   const fetchSongs = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/songs");
+      const res = await axios.get("/api/songs");
       setSongs(res.data.songs || []);
     } catch (err) {
       console.error("Error fetching songs:", err);
@@ -33,7 +33,7 @@ const ViewSongs = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/songs/${id}`);
+      await axios.delete(`/api/songs/${id}`);
       alert("Song deleted successfully ✅");
       fetchSongs(); // Refresh list
     } catch (err) {
@@ -182,11 +182,10 @@ const ViewSongs = () => {
                       {/* Type */}
                       <td className="px-6 py-4">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            song.audioType === "Video"
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${song.audioType === "Video"
                               ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
                               : "bg-green-600/20 text-green-400 border border-green-500/30"
-                          }`}
+                            }`}
                         >
                           {song.audioType || "MP3"}
                         </span>
@@ -249,11 +248,10 @@ const ViewSongs = () => {
                   <button
                     key={i}
                     onClick={() => setCurrentPage(i + 1)}
-                    className={`px-4 py-2 rounded-lg transition ${
-                      currentPage === i + 1
+                    className={`px-4 py-2 rounded-lg transition ${currentPage === i + 1
                         ? "bg-purple-600 text-white"
                         : "bg-[#1f1f1f] text-white hover:bg-[#2a2a2a]"
-                    }`}
+                      }`}
                   >
                     {i + 1}
                   </button>

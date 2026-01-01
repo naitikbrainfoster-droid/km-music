@@ -9,7 +9,7 @@ const AddArtist = () => {
     instagram: "",
     youtube: "",
     facebook: "",
-  });  
+  });
 
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ const AddArtist = () => {
       data.append("image", image); // 🔥 must match backend field
 
       const res = await axios.post(
-        "http://localhost:5000/api/artists/add",
+        "/api/artists/add",
         data,
         {
           headers: {
@@ -79,74 +79,74 @@ const AddArtist = () => {
 
   return (
     <AdminLayout>
-    <div className="max-w-xl mx-auto bg-[#111] p-6 rounded-lg text-white">
-      <h2 className="text-2xl font-bold mb-6">Add Artist</h2>
+      <div className="max-w-xl mx-auto bg-[#111] p-6 rounded-lg text-white">
+        <h2 className="text-2xl font-bold mb-6">Add Artist</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Artist Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
-        />
+          <input
+            type="text"
+            name="name"
+            placeholder="Artist Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
+          />
 
-        <textarea
-          name="bio"
-          placeholder="Artist Bio"
-          value={formData.bio}
-          onChange={handleChange}
-          rows="4"
-          className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
-        />
+          <textarea
+            name="bio"
+            placeholder="Artist Bio"
+            value={formData.bio}
+            onChange={handleChange}
+            rows="4"
+            className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
+          />
 
-        <input
-          type="text"
-          name="instagram"
-          placeholder="Instagram Link"
-          value={formData.instagram}
-          onChange={handleChange}
-          className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
-        />
+          <input
+            type="text"
+            name="instagram"
+            placeholder="Instagram Link"
+            value={formData.instagram}
+            onChange={handleChange}
+            className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
+          />
 
-        <input
-          type="text"
-          name="youtube"
-          placeholder="YouTube Link"
-          value={formData.youtube}
-          onChange={handleChange}
-          className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
-        />
+          <input
+            type="text"
+            name="youtube"
+            placeholder="YouTube Link"
+            value={formData.youtube}
+            onChange={handleChange}
+            className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
+          />
 
-        <input
-          type="text"
-          name="facebook"
-          placeholder="Facebook Link"
-          value={formData.facebook}
-          onChange={handleChange}
-          className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
-        />
+          <input
+            type="text"
+            name="facebook"
+            placeholder="Facebook Link"
+            value={formData.facebook}
+            onChange={handleChange}
+            className="w-full p-3 rounded bg-[#1f1f1f] outline-none"
+          />
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="w-full text-sm"
-        />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full text-sm"
+          />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded font-semibold"
-        >
-          {loading ? "Uploading..." : "Add Artist"}
-        </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded font-semibold"
+          >
+            {loading ? "Uploading..." : "Add Artist"}
+          </button>
 
-      </form>
-    </div>
+        </form>
+      </div>
     </AdminLayout>
   );
 };

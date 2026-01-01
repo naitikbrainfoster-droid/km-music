@@ -13,7 +13,7 @@ const ContactSection = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post("http://localhost:5000/api/enquiry", form);
+      await axios.post("/api/enquiry", form);
       alert("Message sent successfully");
 
       setForm({

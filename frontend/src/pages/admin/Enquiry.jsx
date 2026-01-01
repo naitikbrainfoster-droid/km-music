@@ -14,7 +14,7 @@ const Enquiry = () => {
     let isCancelled = false;
 
     const loadEnquiries = async () => {
-      const res = await axios.get("http://localhost:5000/api/enquiry");
+      const res = await axios.get("/api/enquiry");
       if (!isCancelled) {
         setData(res.data);
       }
@@ -30,7 +30,7 @@ const Enquiry = () => {
   /* ✅ DELETE FIXED */
   const deleteEnquiry = async (id) => {
     if (!window.confirm("Delete this enquiry?")) return;
-    await axios.delete(`http://localhost:5000/api/enquiry/${id}`);
+    await axios.delete(`/api/enquiry/${id}`);
     setData((prev) => prev.filter((e) => e._id !== id));
   };
 
@@ -156,11 +156,10 @@ const Enquiry = () => {
             <button
               key={i}
               onClick={() => setPage(i + 1)}
-              className={`px-3 py-1 rounded text-sm ${
-                page === i + 1
+              className={`px-3 py-1 rounded text-sm ${page === i + 1
                   ? "bg-purple-600 text-white"
                   : "bg-[#222] text-gray-300 hover:bg-[#333]"
-              }`}
+                }`}
             >
               {i + 1}
             </button>

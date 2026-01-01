@@ -6,7 +6,7 @@ import AdminLayout from "../../components/admin/AdminLayout";
 const EditSong = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     songName: "",
     category: "",
@@ -35,9 +35,9 @@ const EditSong = () => {
   const fetchSong = async () => {
     try {
       setFetchLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/songs/${id}`);
+      const res = await axios.get(`/api/songs/${id}`);
       const song = res.data.song;
-      
+
       setFormData({
         songName: song.songName || "",
         category: song.category || "",
@@ -75,7 +75,7 @@ const EditSong = () => {
       data.append("audioType", formData.audioType);
       data.append("description", formData.description);
       data.append("likes", formData.likes);
-      
+
       if (newSongFile) {
         data.append("song", newSongFile);
       }
@@ -84,7 +84,7 @@ const EditSong = () => {
       }
 
       const res = await axios.put(
-        `http://localhost:5000/api/songs/${id}`,
+        `/api/songs/${id}`,
         data,
         {
           headers: {
@@ -134,7 +134,7 @@ const EditSong = () => {
         {/* Form */}
         <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] p-8 rounded-2xl shadow-2xl border border-purple-900/20">
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* Current Thumbnail */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">

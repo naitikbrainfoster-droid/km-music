@@ -15,7 +15,7 @@ const SongUploadForm = () => {
     data.append("thumbnail", thumbnail);
 
     await axios.post(
-      "http://localhost:5000/api/songs/upload",
+      "/api/songs/upload",
       data,
       {
         headers: {

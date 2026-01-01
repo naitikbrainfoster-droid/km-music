@@ -26,10 +26,10 @@ const AddSong = () => {
   const [loading, setLoading] = useState(false);
 
   const categories = [
-    "Poetry","Adventure","Classical","Birthday","Contemporary",
-    "Country","Documentary","Fiction","Culture","Hip-Hop",
-    "Punjabi","Haryanvi","Bollywood","Hollywood","Rock",
-    "Rap","Playful","Soulful","Sad","Gym"
+    "Poetry", "Adventure", "Classical", "Birthday", "Contemporary",
+    "Country", "Documentary", "Fiction", "Culture", "Hip-Hop",
+    "Punjabi", "Haryanvi", "Bollywood", "Hollywood", "Rock",
+    "Rap", "Playful", "Soulful", "Sad", "Gym"
   ];
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const AddSong = () => {
   }, []);
 
   const fetchArtists = async () => {
-    const res = await axios.get("http://localhost:5000/api/songs/artists");
+    const res = await axios.get("/api/songs/artists");
 
     const withIds = (res.data.artists || []).map((a, index) => ({
       ...a,
@@ -98,7 +98,7 @@ const AddSong = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:5000/api/songs/add", data, {
+      await axios.post("/api/songs/add", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -145,9 +145,8 @@ const AddSong = () => {
                   setSelectedArtist(a);
                   setSearch(`${a.numericId} ${a.name}`);
                 }}
-                className={`p-3 cursor-pointer hover:bg-purple-700 ${
-                  selectedArtist?._id === a._id ? "bg-purple-600" : ""
-                }`}
+                className={`p-3 cursor-pointer hover:bg-purple-700 ${selectedArtist?._id === a._id ? "bg-purple-600" : ""
+                  }`}
               >
                 <span className="text-purple-400 mr-2">{a.numericId}</span>
                 {a.name}
@@ -180,7 +179,7 @@ const AddSong = () => {
           </select>
 
           {/* AUDIO TYPE */}
-{/* <div className="flex gap-8">
+          {/* <div className="flex gap-8">
             <label>
               <input
                 type="radio"

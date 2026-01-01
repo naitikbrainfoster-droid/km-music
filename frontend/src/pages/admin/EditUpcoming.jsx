@@ -16,7 +16,7 @@ const EditUpcoming = () => {
     category: "Punjabi",
     youtubeUrl: "",
   });
-  
+
 
   const [currentThumbnail, setCurrentThumbnail] = useState("");
   const [newThumbnailFile, setNewThumbnailFile] = useState(null);
@@ -33,7 +33,7 @@ const EditUpcoming = () => {
   const fetchUpcoming = async () => {
     try {
       setFetchLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/upcoming/${id}`);
+      const res = await axios.get(`/api/upcoming/${id}`);
       const song = res.data?.upcoming || res.data;
 
       setFormData({
@@ -45,9 +45,9 @@ const EditUpcoming = () => {
         youtubeUrl: song.youtubeUrl || "",
         publishedDate: song.publishedDate?.split("T")[0] || "",
       });
-        
 
-    
+
+
       setCurrentThumbnail(song.thumbnailUrl || "");
     } catch (err) {
       alert("Failed to fetch upcoming song");
@@ -67,7 +67,7 @@ const EditUpcoming = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      
+
       const data = new FormData();
       data.append("songTitle", formData.songTitle);
       data.append("sungBy", formData.sungBy);
@@ -76,12 +76,12 @@ const EditUpcoming = () => {
       data.append("youtubeUrl", formData.youtubeUrl);
       data.append("publishedDate", formData.publishedDate);
 
-if (newThumbnailFile) {
-  data.append("thumbnail", newThumbnailFile);
-}
+      if (newThumbnailFile) {
+        data.append("thumbnail", newThumbnailFile);
+      }
 
       await axios.put(
-        `http://localhost:5000/api/upcoming/${id}`,
+        `/api/upcoming/${id}`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -123,37 +123,37 @@ if (newThumbnailFile) {
             className="w-full p-3 rounded bg-black border border-gray-800 text-white"
           />
 
-<input
-  value={formData.sungByName}
-  disabled
-  placeholder="Sung By"
-  className="w-full p-3 rounded bg-black border border-gray-800 text-white cursor-not-allowed"
-/>
+          <input
+            value={formData.sungByName}
+            disabled
+            placeholder="Sung By"
+            className="w-full p-3 rounded bg-black border border-gray-800 text-white cursor-not-allowed"
+          />
 
 
-<select
-  name="category"
-  value={formData.category}
-  onChange={handleChange}
-  required
-  className="w-full p-3 rounded bg-black border border-gray-800 text-white"
->
-  <option value="Punjabi">Punjabi</option>
-  <option value="Haryanvi">Haryanvi</option>
-  <option value="Bollywood">Bollywood</option>
-  <option value="Hollywood">Hollywood</option>
-  <option value="Rock">Rock</option>
-  <option value="Culture">Culture</option>
-</select>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded bg-black border border-gray-800 text-white"
+          >
+            <option value="Punjabi">Punjabi</option>
+            <option value="Haryanvi">Haryanvi</option>
+            <option value="Bollywood">Bollywood</option>
+            <option value="Hollywood">Hollywood</option>
+            <option value="Rock">Rock</option>
+            <option value="Culture">Culture</option>
+          </select>
 
-<input
-  name="youtubeUrl"
-  value={formData.youtubeUrl}
-  onChange={handleChange}
-  placeholder="YouTube Video URL"
-  required
-  className="w-full p-3 rounded bg-black border border-gray-800 text-white"
-/>
+          <input
+            name="youtubeUrl"
+            value={formData.youtubeUrl}
+            onChange={handleChange}
+            placeholder="YouTube Video URL"
+            required
+            className="w-full p-3 rounded bg-black border border-gray-800 text-white"
+          />
 
 
           <input
@@ -174,7 +174,7 @@ if (newThumbnailFile) {
             className="w-full p-3 rounded bg-black border border-gray-800 text-white"
           />
 
-        
+
 
           {currentThumbnail && (
             <img src={currentThumbnail} className="w-32 h-32 rounded-xl" />

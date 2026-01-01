@@ -25,7 +25,7 @@ const RegisterUser = () => {
     try {
       setLoading(true);
 
-      await axios.post("http://localhost:5000/api/admin/register", form);
+      await axios.post("/api/admin/register", form);
 
       alert("User registered successfully ✅");
 

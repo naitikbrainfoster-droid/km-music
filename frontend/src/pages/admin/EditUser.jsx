@@ -20,7 +20,7 @@ const EditUser = () => {
     const fetchUser = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/admin/users/${id}`
+          `/api/admin/users/${id}`
         );
 
         const user = res.data.user;
@@ -45,7 +45,7 @@ const EditUser = () => {
   const updateUser = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/users/${id}`,
+        `/api/admin/users/${id}`,
         {
           name: form.name,
           status: form.status,
