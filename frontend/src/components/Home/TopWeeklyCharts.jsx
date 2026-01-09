@@ -42,7 +42,7 @@ export default function WeeklyPlaylists() {
   }, []);
 
   return (
-    <section className="w-full py-16 sm:py-20">
+    <section className="w-full py-16 sm:py-20" id="topweeklychart" >
       <div className="max-w-[1900px] mx-auto px-4 sm:px-6 md:px-12">
 
         {/* HEADER */}

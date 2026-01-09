@@ -19,7 +19,7 @@ const UpcomingHero = () => {
         </h1>
 
         <p className="text-gray-300 text-lg md:text-xl">
-          Home <span className="text-white mx-1">&gt;</span>Upcoming Song
+          Home <span className="text-white mx-1">&gt;</span>Video Song
         </p>
       </div>
     </section>

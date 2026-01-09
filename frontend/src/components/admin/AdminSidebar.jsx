@@ -70,9 +70,9 @@ const AdminSidebar = () => {
         </Section>
 
         {/* UPCOMING SONGS */}
-        <Section title="Upcoming Songs">
-          <Item to="/admin/upcoming/add" label="Add Upcoming" />
-          <Item to="/admin/upcoming/" label="View Upcoming" />
+        <Section title="Video Songs">
+          <Item to="/admin/upcoming/add" label="Add Video" />
+          <Item to="/admin/upcoming/" label="View Video" />
         </Section>
 
         {/* USERS (LAST) */}

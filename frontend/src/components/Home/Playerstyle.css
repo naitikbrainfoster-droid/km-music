@@ -1,0 +1,26 @@
+.song-range {
+    -webkit-appearance: none;
+    width: 520px;
+    height: 3px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .song-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #1da1ff;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  }
+  
+  .song-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #1da1ff;
+    border-radius: 50%;
+    border: none;
+  }
+  

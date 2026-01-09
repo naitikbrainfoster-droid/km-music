@@ -4,7 +4,7 @@ import RightGirl from "../../assets/About/Group-1747 1.png";
 
 const AboutSection2 = () => {
   return (
-    <section
+    <section id="growAudience"
       className="w-full py-20 px-5 sm:px-10 md:px-[60px] relative overflow-hidden"
       style={{
         backgroundImage: `url(${BgSection})`,

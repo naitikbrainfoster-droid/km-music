@@ -1,6 +1,6 @@
 import React from "react";
 import footerbg from "../assets/footerbg.png";
-import logo from "../assets/logo.svg";
+import logo from "../assets/flogo.svg";
 
 const Footer = () => {
   return (
@@ -16,7 +16,7 @@ const Footer = () => {
 
           {/* Logo */}
           <div className="w-full flex justify-center mb-12">
-            <img src={logo} alt="KM" className="h-28 object-contain" />
+            <img src={logo} alt="KM" className="h-45 object-contain" />
           </div>
 
           {/* Divider */}
@@ -29,43 +29,72 @@ const Footer = () => {
             <div>
               <h3 className="text-2xl font-semibold text-white mb-5">Discover</h3>
               <ul className="space-y-3 text-[17px]">
-                <li className="hover:text-white">Editor’s Choice</li>
-                <li className="hover:text-white">Popular Music</li>
-                <li className="hover:text-white">New Release Songs</li>
-                <li className="hover:text-white">Upcoming Music</li>
+                <li className="hover:text-white">
+                  <a href="/artists" className="block">Artist</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="#top" className="block">Popular Music</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="#newvideo" className="block">New Release Video</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/songs" className="block">Music</a>
+                </li>
               </ul>
             </div>
 
             {/* Helps */}
             <div>
-              <h3 className="text-2xl font-semibold text-white mb-5">Helps And Faq</h3>
+              <h3 className="text-2xl font-semibold text-white mb-5">
+                Helps And Faq
+              </h3>
               <ul className="space-y-3 text-[17px]">
-                <li className="hover:text-white">My Info Here</li>
-                <li className="hover:text-white">Help centre</li>
-                <li className="hover:text-white">News & Blog</li>
-                <li className="hover:text-white">Hire us</li>
+                <li className="hover:text-white">
+                  <a href="/about" className="block">My Info Here</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/about/#growAudience" className="block">Grow Your Audience</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/about/#faq" className="block">FAQ</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/#genres" className="block">Genres Category</a>
+                </li>
               </ul>
             </div>
 
             {/* Meet Kundra */}
             <div>
-              <h3 className="text-2xl font-semibold text-white mb-5">Meet Kundra Music</h3>
+              <h3 className="text-2xl font-semibold text-white mb-5">
+                Meet Kundra Music
+              </h3>
               <ul className="space-y-3 text-[17px]">
-                <li className="hover:text-white">About Kundra Music</li>
-                <li className="hover:text-white">Careers</li>
-                <li className="hover:text-white">Privacy Policy</li>
-                <li className="hover:text-white">Sitemap</li>
+                <li className="hover:text-white">
+                  <a href="/about" className="block">About Kundra Music</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/contact" className="block">Contact</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/privacy-policy" className="block">Privacy Policy</a>
+                </li>
+                <li className="hover:text-white">
+                  <a href="/contact/#map" className="block">Map</a>
+                </li>
               </ul>
             </div>
 
             {/* Subscribe */}
             <div>
-              <h3 className="text-2xl font-semibold text-white mb-5">Subscribe Now</h3>
+              <h3 className="text-2xl font-semibold text-white mb-5">
+                Subscribe Now
+              </h3>
               <p className="text-white/70 mb-4 text-[16px] leading-relaxed">
                 Subscription our newsletter for get every update form gana
               </p>
 
-              {/* Email Box */}
               <div className="flex items-center bg-white rounded-full pl-5 pr-5 py-[5px]">
                 <input
                   type="email"
@@ -77,7 +106,6 @@ const Footer = () => {
                 </button>
               </div>
 
-              {/* Checkbox */}
               <div className="mt-4 flex items-center gap-2">
                 <input type="checkbox" className="accent-white" />
                 <p className="text-white/70 text-sm">
@@ -89,12 +117,24 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-center text-white/75 mt-20 text-[16px]">
-            Copyright © 2025 Kundra Music All Rights Reserved.
-          </p>
-        </div>
+  Copyright © 2025 Kundra Music All Rights Reserved. <br />
+  Design & Develop by{" "}
+  <a
+    href="https://brainfoster.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white underline hover:text-white/90 transition"
+  >
+    Brainfoster Tech Private Limited
+  </a>
+</p>
+
+          
+         </div>
       </div>
     </footer>
   );
 };
 
 export default Footer;
+

@@ -16,7 +16,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   // ================= REGISTER =================
   const handleRegister = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/register", {
+      const res = await axios.post("/api/auth/register", {
         fullName,
         email,
         password,
@@ -39,7 +39,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   // ================= LOGIN =================
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/login", {
+      const res = await axios.post("/api/auth/login", {
         email,
         password,
       });
@@ -58,7 +58,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   // ================= GOOGLE LOGIN =================
   const handleGoogleLogin = async (credential) => {
     try {
-      const res = await axios.post("http://localhost:5000/google-login", {
+      const res = await axios.post("/api/auth/google-login", {
         token: credential,
       });
 

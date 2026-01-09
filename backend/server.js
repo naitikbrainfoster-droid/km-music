@@ -26,17 +26,17 @@ app.use("/api/artists", require("./routes/artist"));
 app.use("/api/songs", require("./routes/song"));
 app.use("/api/upcoming", require("./routes/upcomingSong"));
 
+//=====================
+//HEALTH CHECK 
+app.get("/api/health", (req, res) => {
+     res.json({ status: "ok" });
+});
+
 // =======================
 // STATIC
 // =======================
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// =======================
-// HEALTH
-// =======================
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
-});
+app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 // =======================
 // START SERVER

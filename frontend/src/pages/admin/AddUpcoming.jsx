@@ -117,7 +117,7 @@ const AddUpcoming = () => {
     <AdminLayout>
       <div className="max-w-6xl mx-auto p-6">
         <h2 className="text-3xl font-bold mb-8 text-white">
-          Add Upcoming Song
+          Add Video  Song
         </h2>
 
         <form onSubmit={handleSubmit}>

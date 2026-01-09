@@ -31,7 +31,7 @@ const WeeklyTopPlaylists = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section className="w-full py-20 bg-[#0d0d0d]">
+    <section className="w-full py-20 bg-[#0d0d0d]" id="faq">
       
       {/* FIX: CENTER THE CONTENT (1600px like other sections) */}
       <div className="max-w-[1600px] mx-auto px-5 sm:px-10 md:px-16 lg:px-[60px]">

@@ -11,7 +11,7 @@ const Profile = () => {
   const [avatarFile, setAvatarFile] = useState(null);
   const [preview, setPreview] = useState(
     storedUser?.avatar
-      ? `http://localhost:5000${storedUser.avatar}`
+      ? `http://kundramusic.com/${storedUser.avatar}`
       : ""
   );
 
@@ -41,7 +41,7 @@ const Profile = () => {
       if (avatarFile) formData.append("avatar", avatarFile);
 
       const res = await axios.put(
-        "http://localhost:5000/user/update",
+        "/api/user/update",
         formData,
         {
           headers: {

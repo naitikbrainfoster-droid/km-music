@@ -17,7 +17,7 @@ const genres = [
 
 const GenresCategory = ({ selectedGenre, onSelect }) => {
   return (
-    <section className="w-full text-white py-16">
+    <section id="genres"  className="w-full text-white py-16">
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 md:px-10 lg:px-[60px]">
 
         {/* TOP TITLE BUTTON */}

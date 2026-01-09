@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import logo from "../assets/logo.svg";
+import logo from "../assets/flogo.svg";
 import searchIcon from "../assets/search-icon.svg";
 import loginIcon from "../assets/search-icon.svg";
 import LoginModal from "./Login/LoginModel";
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "http://kundramusic.com/";
 
 const Navbar = () => {
   /* ================= AUTH ================= */
@@ -76,8 +76,9 @@ const Navbar = () => {
           <div className="h-[92px] flex items-center gap-6">
 
             {/* LOGO */}
-            <Link to="/" className="flex-shrink-0">
-              <img src={logo} alt="Logo" className="h-14 lg:h-16" />
+            <Link to="http://kundramusic.com/" className="flex-shrink-0">
+              <img src={logo} alt="Logo" className="h-14
+                md:h-16 lg:h-20 xl:h-22 object-conain" />
             </Link>
 
             {/* SEARCH + DIVIDER (DESKTOP) */}

@@ -1,0 +1,13 @@
+# ======================
+# MONGODB
+# ======================
+
+MONGO_URI=mongodb+srv://km_db_user:Km0126@cluster0.1frbqvh.mongodb.net/km_music_app?retryWrites=true&w=majority
+
+#AWS
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=AKIA26XJNWC3RMS7YLXI
+AWS_SECRET_ACCESS_KEY=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
+AWS_S3_BUCKET_NAME=km-music-storages
+
+

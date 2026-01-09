@@ -85,7 +85,7 @@ const ViewUpcoming = () => {
             onClick={() => navigate("/admin/upcoming/add")}
             className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transition-all duration-200"
           >
-            + Add Upcoming Song
+            + Add Video  Song
           </button>
         </div>
 
